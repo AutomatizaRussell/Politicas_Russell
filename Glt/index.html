@@ -44,15 +44,37 @@
     border-right: 1px solid var(--line);
     font-size: .85rem;
   }
-  nav.toc .toc-title {
+  details.toc-section {
+    margin: 0 0 .3rem;
+  }
+  details.toc-section + details.toc-section {
+    margin-top: .6rem;
+    padding-top: .6rem;
+    border-top: 1px solid var(--line);
+  }
+  details.toc-section summary.toc-title {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-weight: 700;
     color: var(--blue-dark);
     text-transform: uppercase;
     letter-spacing: .04em;
     font-size: .72rem;
-    margin: 1.3rem 0 .55rem;
+    margin: 0 0 .3rem;
+    padding: .2rem 0;
   }
-  nav.toc .toc-title:first-child { margin-top: 0; }
+  details.toc-section summary.toc-title::-webkit-details-marker { display: none; }
+  details.toc-section summary.toc-title::after {
+    content: '▾';
+    font-size: .7rem;
+    color: var(--blue);
+    transition: transform .15s ease;
+    margin-left: .5rem;
+  }
+  details.toc-section:not([open]) summary.toc-title::after { transform: rotate(-90deg); }
   ol.toc-list { list-style: none; margin: 0; padding: 0; }
   ol.toc-list li { margin: 0; }
   ol.toc-list li a {
@@ -162,7 +184,66 @@
   <details class="toc-toggle">
     <summary>Tabla de contenido</summary>
     <nav class="toc-inner">
-      <p class="toc-title">Política de tratamiento</p>
+      <details class="toc-section" open>
+        <summary class="toc-title">Política de tratamiento</summary>
+        <ol class="toc-list">
+<li class="depth-0"><a href="#generalidades"><span class="toc-num">1.</span> Generalidades</a></li>
+<li class="depth-0"><a href="#_Toc204092518"><span class="toc-num">2.</span> Objetivo</a></li>
+<li class="depth-0"><a href="#definiciones"><span class="toc-num">3.</span> Definiciones</a></li>
+<li class="depth-0"><a href="#marco-normativo"><span class="toc-num">4.</span> Marco Normativo</a></li>
+<li class="depth-0"><a href="#principios"><span class="toc-num">5.</span> Principios</a></li>
+<li class="depth-0"><a href="#ámbito-de-aplicación"><span class="toc-num">6.</span> Ámbito De Aplicación</a></li>
+<li class="depth-0"><a href="#destinatarios"><span class="toc-num">7.</span> Destinatarios</a></li>
+<li class="depth-0"><a href="#responsable-del-tratamiento"><span class="toc-num">8.</span> Responsable Del Tratamiento</a></li>
+<li class="depth-0"><a href="#de-la-autorización"><span class="toc-num">9.</span> De La Autorización</a></li>
+<li class="depth-1"><a href="#forma-de-otorgar-la-autorización-para-el-tratamiento-de-datos-personales"><span class="toc-num">9.1.</span> Forma De Otorgar La Autorización Para El Tratamiento De Datos Personales</a></li>
+<li class="depth-1"><a href="#autorización-para-el-tratamiento-de-datos-sensibles"><span class="toc-num">9.2.</span> Autorización Para El Tratamiento De Datos Sensibles</a></li>
+<li class="depth-1"><a href="#sistemas-de-videovigilancia"><span class="toc-num">9.3.</span> Sistemas De Videovigilancia</a></li>
+<li class="depth-1"><a href="#tratamiento-de-datos-de-menores-de-edad"><span class="toc-num">9.4.</span> Tratamiento De Datos De Menores De Edad</a></li>
+<li class="depth-1"><a href="#casos-en-los-cuales-no-se-requiere-autorización-para-el-tratamiento-de-los-datos-que-tenga-en-su-poder"><span class="toc-num">9.5.</span> Casos En Los Cuales No Se Requiere Autorización Para El Tratamiento De Los Datos Que Tenga En Su Poder</a></li>
+<li class="depth-0"><a href="#finalidad-del-tratamiento-de-los-datos-personales"><span class="toc-num">10.</span> Finalidad Del Tratamiento De Los Datos Personales</a></li>
+<li class="depth-1"><a href="#respecto-de-clientes-o-potenciales-clientes"><span class="toc-num">10.1.</span> Respecto De Clientes O Potenciales Clientes</a></li>
+<li class="depth-1"><a href="#respecto-de-proveedores-o-potenciales-proveedores"><span class="toc-num">10.2.</span> Respecto De Proveedores O Potenciales Proveedores</a></li>
+<li class="depth-1"><a href="#respecto-de-candidatos-trabajadores-aprendices-o-practicantes-yo-sus-beneficiarios"><span class="toc-num">10.3.</span> Respecto De Candidatos, Trabajadores, Aprendices O Practicantes Y/O Sus Beneficiarios</a></li>
+<li class="depth-0"><a href="#aviso-de-privacidad"><span class="toc-num">11.</span> Aviso De Privacidad</a></li>
+<li class="depth-1"><a href="#contenido-del-aviso-de-privacidad"><span class="toc-num">11.1.</span> Contenido Del Aviso De Privacidad</a></li>
+<li class="depth-1"><a href="#medios-de-difusión-del-aviso-de-privacidad"><span class="toc-num">11.2.</span> Medios De Difusión Del Aviso De Privacidad</a></li>
+<li class="depth-1"><a href="#conservación-del-modelo-de-aviso-de-privacidad"><span class="toc-num">11.3.</span> Conservación Del Modelo De Aviso De Privacidad</a></li>
+<li class="depth-0"><a href="#derechos-y-deberes-de-los-titulares-de-los-datos"><span class="toc-num">12.</span> Derechos Y Deberes De Los Titulares De Los Datos</a></li>
+<li class="depth-1"><a href="#derechos-de-los-titulares-de-los-datos"><span class="toc-num">12.1.</span> Derechos De Los Titulares De Los Datos</a></li>
+<li class="depth-1"><a href="#deberes-de-los-titulares-de-los-datos"><span class="toc-num">12.2.</span> Deberes De Los Titulares De Los Datos</a></li>
+<li class="depth-1"><a href="#deberes-de-glt-gestion-legal-y-tributaria-s.a.s.-como-responsable-del-tratamiento-de-los-datos"><span class="toc-num">12.3.</span> Deberes De Glt Gestion Legal Y Tributaria S.A.S. Como Responsable Del Tratamiento De Los Datos</a></li>
+<li class="depth-0"><a href="#encargados-del-tratamiento-de-los-datos-personales-y-ejercicio-de-los-derechos-de-los-titulares"><span class="toc-num">13.</span> Encargados Del Tratamiento De Los Datos Personales Y Ejercicio De Los Derechos De Los Titulares</a></li>
+<li class="depth-1"><a href="#legitimación"><span class="toc-num">13.1.</span> Legitimación</a></li>
+<li class="depth-1"><a href="#derecho-a-acceso-y-consultas"><span class="toc-num">13.2.</span> Derecho A Acceso Y Consultas</a></li>
+<li class="depth-1"><a href="#reclamos"><span class="toc-num">13.3.</span> Reclamos</a></li>
+<li class="depth-1"><a href="#revocatoria-de-la-autorización"><span class="toc-num">13.4.</span> Revocatoria De La Autorización</a></li>
+<li class="depth-0"><a href="#datos-recolectados-antes-de-la-expedición-del-decreto-1377-de-2013"><span class="toc-num">14.</span> Datos Recolectados Antes De La Expedición Del Decreto 1377 De 2013</a></li>
+<li class="depth-0"><a href="#requisito-de-procedibilidad"><span class="toc-num">15.</span> Requisito De Procedibilidad</a></li>
+<li class="depth-0"><a href="#seguridad-de-la-información"><span class="toc-num">16.</span> Seguridad De La Información</a></li>
+<li class="depth-1"><a href="#medidas-de-seguridad"><span class="toc-num">16.1.</span> Medidas De Seguridad</a></li>
+<li class="depth-0"><a href="#disposiciones-finales"><span class="toc-num">17.</span> Disposiciones Finales</a></li>
+<li class="depth-1"><a href="#responsable-de-la-protección-de-los-datos"><span class="toc-num">17.1.</span> Responsable De La Protección De Los Datos</a></li>
+<li class="depth-1"><a href="#vigencia-de-la-autorización"><span class="toc-num">17.2.</span> Vigencia De La Autorización</a></li>
+<li class="depth-1"><a href="#cumplimiento-de-la-política"><span class="toc-num">17.3.</span> Cumplimiento De La Política</a></li>
+<li class="depth-1"><a href="#aprobación"><span class="toc-num">17.4.</span> Aprobación</a></li>
+</ol>
+      </details>
+      <details class="toc-section">
+        <summary class="toc-title">Aviso de privacidad</summary>
+        <ol class="toc-list">
+          <li><a href="#aviso-responsable-del-tratamiento"><span class="toc-num">1.</span> Responsable del tratamiento</a></li>
+          <li><a href="#aviso-finalidades-del-tratamiento-de-datos-personales"><span class="toc-num">2.</span> Finalidades del tratamiento</a></li>
+          <li><a href="#aviso-derechos-de-los-titulares"><span class="toc-num">3.</span> Derechos de los titulares</a></li>
+          <li><a href="#aviso-política-de-tratamiento"><span class="toc-num">4.</span> Política de tratamiento</a></li>
+        </ol>
+      </details>
+    </nav>
+  </details>
+
+  <nav class="toc">
+    <details class="toc-section" open>
+      <summary class="toc-title">Política de tratamiento</summary>
       <ol class="toc-list">
 <li class="depth-0"><a href="#generalidades"><span class="toc-num">1.</span> Generalidades</a></li>
 <li class="depth-0"><a href="#_Toc204092518"><span class="toc-num">2.</span> Objetivo</a></li>
@@ -205,67 +286,16 @@
 <li class="depth-1"><a href="#cumplimiento-de-la-política"><span class="toc-num">17.3.</span> Cumplimiento De La Política</a></li>
 <li class="depth-1"><a href="#aprobación"><span class="toc-num">17.4.</span> Aprobación</a></li>
 </ol>
-      <p class="toc-title">Aviso de privacidad</p>
+    </details>
+    <details class="toc-section">
+      <summary class="toc-title">Aviso de privacidad</summary>
       <ol class="toc-list">
         <li><a href="#aviso-responsable-del-tratamiento"><span class="toc-num">1.</span> Responsable del tratamiento</a></li>
         <li><a href="#aviso-finalidades-del-tratamiento-de-datos-personales"><span class="toc-num">2.</span> Finalidades del tratamiento</a></li>
         <li><a href="#aviso-derechos-de-los-titulares"><span class="toc-num">3.</span> Derechos de los titulares</a></li>
         <li><a href="#aviso-política-de-tratamiento"><span class="toc-num">4.</span> Política de tratamiento</a></li>
       </ol>
-    </nav>
-  </details>
-
-  <nav class="toc">
-    <p class="toc-title">Política de tratamiento</p>
-    <ol class="toc-list">
-<li class="depth-0"><a href="#generalidades"><span class="toc-num">1.</span> Generalidades</a></li>
-<li class="depth-0"><a href="#_Toc204092518"><span class="toc-num">2.</span> Objetivo</a></li>
-<li class="depth-0"><a href="#definiciones"><span class="toc-num">3.</span> Definiciones</a></li>
-<li class="depth-0"><a href="#marco-normativo"><span class="toc-num">4.</span> Marco Normativo</a></li>
-<li class="depth-0"><a href="#principios"><span class="toc-num">5.</span> Principios</a></li>
-<li class="depth-0"><a href="#ámbito-de-aplicación"><span class="toc-num">6.</span> Ámbito De Aplicación</a></li>
-<li class="depth-0"><a href="#destinatarios"><span class="toc-num">7.</span> Destinatarios</a></li>
-<li class="depth-0"><a href="#responsable-del-tratamiento"><span class="toc-num">8.</span> Responsable Del Tratamiento</a></li>
-<li class="depth-0"><a href="#de-la-autorización"><span class="toc-num">9.</span> De La Autorización</a></li>
-<li class="depth-1"><a href="#forma-de-otorgar-la-autorización-para-el-tratamiento-de-datos-personales"><span class="toc-num">9.1.</span> Forma De Otorgar La Autorización Para El Tratamiento De Datos Personales</a></li>
-<li class="depth-1"><a href="#autorización-para-el-tratamiento-de-datos-sensibles"><span class="toc-num">9.2.</span> Autorización Para El Tratamiento De Datos Sensibles</a></li>
-<li class="depth-1"><a href="#sistemas-de-videovigilancia"><span class="toc-num">9.3.</span> Sistemas De Videovigilancia</a></li>
-<li class="depth-1"><a href="#tratamiento-de-datos-de-menores-de-edad"><span class="toc-num">9.4.</span> Tratamiento De Datos De Menores De Edad</a></li>
-<li class="depth-1"><a href="#casos-en-los-cuales-no-se-requiere-autorización-para-el-tratamiento-de-los-datos-que-tenga-en-su-poder"><span class="toc-num">9.5.</span> Casos En Los Cuales No Se Requiere Autorización Para El Tratamiento De Los Datos Que Tenga En Su Poder</a></li>
-<li class="depth-0"><a href="#finalidad-del-tratamiento-de-los-datos-personales"><span class="toc-num">10.</span> Finalidad Del Tratamiento De Los Datos Personales</a></li>
-<li class="depth-1"><a href="#respecto-de-clientes-o-potenciales-clientes"><span class="toc-num">10.1.</span> Respecto De Clientes O Potenciales Clientes</a></li>
-<li class="depth-1"><a href="#respecto-de-proveedores-o-potenciales-proveedores"><span class="toc-num">10.2.</span> Respecto De Proveedores O Potenciales Proveedores</a></li>
-<li class="depth-1"><a href="#respecto-de-candidatos-trabajadores-aprendices-o-practicantes-yo-sus-beneficiarios"><span class="toc-num">10.3.</span> Respecto De Candidatos, Trabajadores, Aprendices O Practicantes Y/O Sus Beneficiarios</a></li>
-<li class="depth-0"><a href="#aviso-de-privacidad"><span class="toc-num">11.</span> Aviso De Privacidad</a></li>
-<li class="depth-1"><a href="#contenido-del-aviso-de-privacidad"><span class="toc-num">11.1.</span> Contenido Del Aviso De Privacidad</a></li>
-<li class="depth-1"><a href="#medios-de-difusión-del-aviso-de-privacidad"><span class="toc-num">11.2.</span> Medios De Difusión Del Aviso De Privacidad</a></li>
-<li class="depth-1"><a href="#conservación-del-modelo-de-aviso-de-privacidad"><span class="toc-num">11.3.</span> Conservación Del Modelo De Aviso De Privacidad</a></li>
-<li class="depth-0"><a href="#derechos-y-deberes-de-los-titulares-de-los-datos"><span class="toc-num">12.</span> Derechos Y Deberes De Los Titulares De Los Datos</a></li>
-<li class="depth-1"><a href="#derechos-de-los-titulares-de-los-datos"><span class="toc-num">12.1.</span> Derechos De Los Titulares De Los Datos</a></li>
-<li class="depth-1"><a href="#deberes-de-los-titulares-de-los-datos"><span class="toc-num">12.2.</span> Deberes De Los Titulares De Los Datos</a></li>
-<li class="depth-1"><a href="#deberes-de-glt-gestion-legal-y-tributaria-s.a.s.-como-responsable-del-tratamiento-de-los-datos"><span class="toc-num">12.3.</span> Deberes De Glt Gestion Legal Y Tributaria S.A.S. Como Responsable Del Tratamiento De Los Datos</a></li>
-<li class="depth-0"><a href="#encargados-del-tratamiento-de-los-datos-personales-y-ejercicio-de-los-derechos-de-los-titulares"><span class="toc-num">13.</span> Encargados Del Tratamiento De Los Datos Personales Y Ejercicio De Los Derechos De Los Titulares</a></li>
-<li class="depth-1"><a href="#legitimación"><span class="toc-num">13.1.</span> Legitimación</a></li>
-<li class="depth-1"><a href="#derecho-a-acceso-y-consultas"><span class="toc-num">13.2.</span> Derecho A Acceso Y Consultas</a></li>
-<li class="depth-1"><a href="#reclamos"><span class="toc-num">13.3.</span> Reclamos</a></li>
-<li class="depth-1"><a href="#revocatoria-de-la-autorización"><span class="toc-num">13.4.</span> Revocatoria De La Autorización</a></li>
-<li class="depth-0"><a href="#datos-recolectados-antes-de-la-expedición-del-decreto-1377-de-2013"><span class="toc-num">14.</span> Datos Recolectados Antes De La Expedición Del Decreto 1377 De 2013</a></li>
-<li class="depth-0"><a href="#requisito-de-procedibilidad"><span class="toc-num">15.</span> Requisito De Procedibilidad</a></li>
-<li class="depth-0"><a href="#seguridad-de-la-información"><span class="toc-num">16.</span> Seguridad De La Información</a></li>
-<li class="depth-1"><a href="#medidas-de-seguridad"><span class="toc-num">16.1.</span> Medidas De Seguridad</a></li>
-<li class="depth-0"><a href="#disposiciones-finales"><span class="toc-num">17.</span> Disposiciones Finales</a></li>
-<li class="depth-1"><a href="#responsable-de-la-protección-de-los-datos"><span class="toc-num">17.1.</span> Responsable De La Protección De Los Datos</a></li>
-<li class="depth-1"><a href="#vigencia-de-la-autorización"><span class="toc-num">17.2.</span> Vigencia De La Autorización</a></li>
-<li class="depth-1"><a href="#cumplimiento-de-la-política"><span class="toc-num">17.3.</span> Cumplimiento De La Política</a></li>
-<li class="depth-1"><a href="#aprobación"><span class="toc-num">17.4.</span> Aprobación</a></li>
-</ol>
-    <p class="toc-title">Aviso de privacidad</p>
-    <ol class="toc-list">
-      <li><a href="#aviso-responsable-del-tratamiento"><span class="toc-num">1.</span> Responsable del tratamiento</a></li>
-      <li><a href="#aviso-finalidades-del-tratamiento-de-datos-personales"><span class="toc-num">2.</span> Finalidades del tratamiento</a></li>
-      <li><a href="#aviso-derechos-de-los-titulares"><span class="toc-num">3.</span> Derechos de los titulares</a></li>
-      <li><a href="#aviso-política-de-tratamiento"><span class="toc-num">4.</span> Política de tratamiento</a></li>
-    </ol>
+    </details>
   </nav>
 
   <main>
