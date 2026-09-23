@@ -1,16 +1,18 @@
   :root {
     --blue: #4a66ac;
     --blue-dark: #2c3e64;
-    --line: #d9d9d9;
-    --ink: #000000;
-    --muted: #595959;
-    --sidebar-bg: #f5f6f8;
+    --accent: #b08d4f;
+    --ink: #1b2436;
+    --muted: #5b6472;
+    --line: #d8dce4;
+    --sidebar-bg: #f4f6fa;
+    --page-bg: #e7eaf0;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: #e9eaec;
+    background: var(--page-bg);
     color: var(--ink);
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     line-height: 1.55;
@@ -174,13 +176,14 @@
     display: none; /* the real letterhead banner already carries the title */
   }
   h2 {
-    color: #000000;
-    font-weight: 700;
+    color: var(--ink);
+    font-weight: 800;
     text-transform: uppercase;
-    font-size: 1rem;
-    margin: 1.8rem 0 .7rem;
+    font-size: 1.05rem;
+    letter-spacing: .02em;
+    margin: 2.2rem 0 .8rem;
     scroll-margin-top: 1rem;
-    padding-left: .7rem;
+    padding-left: .75rem;
     border-left: 4px solid var(--blue);
   }
   h2 + p, h2 + ul { margin-top: 0; }
@@ -199,13 +202,20 @@
     font-size: .92rem;
   }
   table th, table td {
-    border: 1px solid #999;
+    border: 1px solid #b6bcc7;
     padding: .45rem .55rem;
     text-align: left;
     vertical-align: top;
   }
-  table th { background: #f0f0f0; }
+  table th { background: var(--sidebar-bg); color: var(--blue-dark); }
   hr { border: none; border-top: 1px solid var(--line); margin: 1.5rem 0; }
+  blockquote {
+    margin: 1.5rem 0;
+    padding: .9rem 1.2rem;
+    border-left: 4px solid var(--accent);
+    background: #faf7f1;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
 
   footer.page {
     max-width: 880px;
@@ -239,7 +249,7 @@
       transition: background-color .15s ease;
     }
     details.toc-toggle summary::-webkit-details-marker { display: none; }
-    details.toc-toggle summary:hover { background: #eceef1; }
+    details.toc-toggle summary:hover { background: #eef1f7; }
     details.toc-toggle summary::after {
       content: "";
       width: 9px; height: 9px;

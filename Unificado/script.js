@@ -9,6 +9,9 @@
       tab.classList.toggle('active', active);
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+    document.querySelectorAll('ol.toc-list a.active').forEach(function (l) {
+      l.classList.remove('active');
+    });
   }
 
   tabs.forEach(function (tab) {
@@ -40,4 +43,36 @@
       });
     });
   });
+
+  var sections = document.querySelectorAll('.sheet [id]');
+  var tocLinks = document.querySelectorAll('ol.toc-list a[href^="#"]');
+  if (sections.length && tocLinks.length && 'IntersectionObserver' in window) {
+    var linksById = {};
+    tocLinks.forEach(function (link) {
+      var id = link.getAttribute('href').slice(1);
+      (linksById[id] = linksById[id] || []).push(link);
+    });
+
+    var activeId = null;
+    var setActiveHeading = function (id) {
+      if (id === activeId) return;
+      if (activeId && linksById[activeId]) {
+        linksById[activeId].forEach(function (l) { l.classList.remove('active'); });
+      }
+      activeId = id;
+      if (id && linksById[id]) {
+        linksById[id].forEach(function (l) { l.classList.add('active'); });
+      }
+    };
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActiveHeading(entry.target.id);
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(function (el) {
+      if (linksById[el.id]) observer.observe(el);
+    });
+  }
 })();
