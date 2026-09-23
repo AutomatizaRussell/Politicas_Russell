@@ -1,6 +1,6 @@
   :root {
-    --blue: #4a66ac;
-    --blue-dark: #2c3e64;
+    --blue: #2a4499;
+    --blue-dark: #001871;
     --accent: #b08d4f;
     --ink: #1b2436;
     --muted: #5b6472;
@@ -67,7 +67,7 @@
     margin: 0 0 .55rem;
     padding: .6rem .7rem;
     border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(44,62,100,.18);
+    box-shadow: 0 1px 2px rgba(0,24,113,.18);
     transition: filter .12s ease;
   }
   details.toc-section summary.toc-title:hover { filter: brightness(1.08); }
