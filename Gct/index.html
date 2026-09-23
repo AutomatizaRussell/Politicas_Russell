@@ -20,18 +20,24 @@
     margin: 0;
     background: #e9eaec;
     color: var(--ink);
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.5;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    line-height: 1.55;
     font-size: 16px;
+  }
+  a:focus-visible, summary:focus-visible, button:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   .layout {
     max-width: 78rem;
-    margin: 0 auto;
+    margin: 1.5rem auto;
     display: grid;
     grid-template-columns: 17rem 1fr;
     align-items: start;
     background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 10px 28px rgba(0,0,0,.06);
   }
 
   nav.toc {
@@ -98,6 +104,7 @@
     color: var(--muted);
     text-decoration: none;
     line-height: 1.35;
+    transition: background-color .15s ease, color .15s ease;
   }
   ol.toc-list li.depth-1 a { padding-left: 1.55rem; font-size: .84rem; }
   ol.toc-list li.depth-1 a .toc-num {
@@ -147,14 +154,15 @@
     font-size: 1rem;
     margin: 1.8rem 0 .7rem;
     scroll-margin-top: 1rem;
+    padding-left: .7rem;
+    border-left: 4px solid var(--blue);
   }
   h2 + p, h2 + ul { margin-top: 0; }
   p {
     margin: 0 0 .85rem;
-    text-align: justify;
     color: var(--ink);
   }
-  ul { margin: 0 0 .95rem; padding-left: 1.3rem; text-align: justify; }
+  ul { margin: 0 0 .95rem; padding-left: 1.3rem; }
   li { margin-bottom: .3rem; }
   strong { font-weight: 700; }
   a { color: var(--blue); }
@@ -198,7 +206,24 @@
       font-weight: 700;
       color: var(--blue-dark);
       font-size: .88rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      transition: background-color .15s ease;
     }
+    details.toc-toggle summary::-webkit-details-marker { display: none; }
+    details.toc-toggle summary:hover { background: #eceef1; }
+    details.toc-toggle summary::after {
+      content: "";
+      width: 9px; height: 9px;
+      border-right: 2px solid var(--blue-dark);
+      border-bottom: 2px solid var(--blue-dark);
+      transform: rotate(45deg);
+      transition: transform .18s ease;
+      flex: 0 0 auto;
+    }
+    details.toc-toggle[open] summary::after { transform: rotate(-135deg); }
     nav.toc-inner { padding: 0 1.1rem 1.3rem; }
     .sheet { padding: 0 1.1rem 3rem; }
     footer.page { padding: 1rem 1.1rem 2rem; }
@@ -206,17 +231,70 @@
 
   @media print {
     body { background: #fff; }
-    nav.toc, details.toc-toggle { display: none; }
+    nav.toc, details.toc-toggle, .back-to-top { display: none; }
     .layout { grid-template-columns: 1fr; }
+  }
+
+  .back-to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--blue-dark);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity .2s ease, transform .2s ease, background-color .15s ease;
+    z-index: 40;
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .back-to-top:hover { background: var(--blue); }
+  .back-to-top svg { width: 18px; height: 18px; }
+
+  .reading-progress {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 60;
+    background: rgba(0,0,0,.06);
+  }
+  .reading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--blue-dark), var(--blue));
+  }
+  @media print { .reading-progress { display: none; } }
+
+  .toc-search { padding: 0 0 .8rem; }
+  .toc-search input {
+    width: 100%;
+    padding: .55rem .7rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: .82rem;
+    font-family: inherit;
+    color: var(--ink);
   }
 </style>
 </head>
-<body>
+<body id="top">
+
+<div class="reading-progress"><div class="reading-progress-bar" data-reading-progress></div></div>
 
 <div class="layout">
   <details class="toc-toggle">
     <summary>Tabla de contenido</summary>
     <nav class="toc-inner">
+      <div class="toc-search"><input type="search" placeholder="Buscar en el índice…" aria-label="Buscar en el índice" data-toc-search></div>
       <details class="toc-section" open>
         <summary class="toc-title"><span class="toc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span class="toc-label">Política de tratamiento RUSSELL BEDFORD GCT S.A.S.</span><span class="toc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
         <ol class="toc-list">
@@ -275,7 +353,8 @@
   </details>
 
   <nav class="toc">
-    <details class="toc-section" open>s
+    <div class="toc-search"><input type="search" placeholder="Buscar en el índice…" aria-label="Buscar en el índice" data-toc-search></div>
+    <details class="toc-section" open>
       <summary class="toc-title"><span class="toc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span class="toc-label">Política de tratamiento RUSSELL BEDFORD GCT S.A.S.</span><span class="toc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
       <ol class="toc-list">
 <li class="depth-0"><a href="#generalidades"><span class="toc-num">1</span> Generalidades</a></li>
@@ -829,6 +908,40 @@ Representante Legal</strong></p>
     </footer>
   </main>
 </div>
+
+<a href="#top" class="back-to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</a>
+<script>
+(function () {
+  var btn = document.querySelector('.back-to-top');
+  var progressBar = document.querySelector('[data-reading-progress]');
+
+  window.addEventListener('scroll', function () {
+    if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+    if (progressBar) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }
+  }, { passive: true });
+
+  document.querySelectorAll('[data-toc-search]').forEach(function (input) {
+    var container = input.closest('nav');
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      container.querySelectorAll('ol.toc-list li').forEach(function (li) {
+        var match = !q || li.textContent.toLowerCase().indexOf(q) !== -1;
+        li.style.display = match ? '' : 'none';
+        if (match && q) {
+          var details = li.closest('details.toc-section');
+          if (details) details.open = true;
+        }
+      });
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
