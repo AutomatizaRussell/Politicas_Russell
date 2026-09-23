@@ -63,8 +63,19 @@
       if (id && linksById[id]) {
         linksById[id].forEach(function (l) {
           l.classList.add('active');
-          if (l.offsetParent !== null) {
-            l.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          var nav = l.closest('nav');
+          var group = l.closest('details.toc-section');
+          if (nav && group) {
+            group.open = true;
+            nav.querySelectorAll('details.toc-section').forEach(function (d) {
+              if (d !== group) d.open = false;
+            });
+          }
+          if (nav && l.offsetParent !== null) {
+            var navRect = nav.getBoundingClientRect();
+            var linkRect = l.getBoundingClientRect();
+            var delta = (linkRect.top - navRect.top) - (nav.clientHeight / 2) + (linkRect.height / 2);
+            nav.scrollBy({ top: delta, behavior: 'smooth' });
           }
         });
       }
@@ -79,5 +90,17 @@
     sections.forEach(function (el) {
       if (linksById[el.id]) observer.observe(el);
     });
+
+    var activateLastVisibleAtBottom = function () {
+      var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (!atBottom) return;
+      var lastVisible = null;
+      sections.forEach(function (el) {
+        if (linksById[el.id] && el.offsetParent !== null) lastVisible = el;
+      });
+      if (lastVisible) setActiveHeading(lastVisible.id);
+    };
+    window.addEventListener('scroll', activateLastVisibleAtBottom, { passive: true });
+    activateLastVisibleAtBottom();
   }
 })();
