@@ -61,7 +61,12 @@
       }
       activeId = id;
       if (id && linksById[id]) {
-        linksById[id].forEach(function (l) { l.classList.add('active'); });
+        linksById[id].forEach(function (l) {
+          l.classList.add('active');
+          if (l.offsetParent !== null) {
+            l.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+        });
       }
     };
 
