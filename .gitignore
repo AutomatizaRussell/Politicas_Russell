@@ -1,0 +1,8 @@
+# Secrets live only in the deployment environment (docs/contrato-consentimiento.md §6).
+.env*
+!.env.example
+
+# Dependencies and build output.
+node_modules/
+dist/
+.astro/
