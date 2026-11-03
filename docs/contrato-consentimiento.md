@@ -3,14 +3,14 @@
 ```
 ESTADO:    v1 PROPUESTA el 31-oct-2026. Decisiones del diseño aprobadas por el operador
            (§1); el texto de este contrato no está ratificado
-CORTE:     3-nov-2026. §3 CONSTRUIDA en sitio/ (Astro): fuentes, registro, huellas,
-           versiones congeladas y manifiesto de GCT y GLT. Sin desplegar: Coolify
-           sigue sirviendo Gct/ y Glt/ (§7). §4 sin construir: el servicio no existe
-EVIDENCIA: builds locales de las dos entidades comparados con Gct/index.html y
-           Glt/index.html: texto, HTML de cada sección y banners idénticos; la huella
-           de cada fuente.html coincide con el manifiesto. Probado que el build falla
-           sin ENTIDAD y con una fuente alterada. Sin verificar: la imagen Docker y
-           nginx, que solo se construyen en Coolify
+CORTE:     3-nov-2026. §3 CONSTRUIDA en sitio/ (Astro) y DESPLEGADA en las dos
+           entidades: fuentes, registro, huellas, versiones congeladas y manifiesto.
+           Retiradas Gct/ y Glt/ (§7). §4 sin construir: el servicio no existe
+EVIDENCIA: builds locales comparados con las páginas anteriores: texto, HTML de cada
+           sección y banners idénticos. En vivo, las dos entidades: index idéntico byte
+           a byte al build local, huella de cada fuente.html igual a la del manifiesto,
+           cabeceras de §7, redirección relativa y 404. Probado que el build falla sin
+           ENTIDAD y con una fuente alterada
 ```
 
 **Autoridad:** este documento fija cómo se publican las políticas de tratamiento de datos y los avisos de privacidad de las dos entidades, y cómo cualquier proyecto pide, registra, verifica y deja de usar una autorización. Cada proyecto consumidor decide **cuándo** pide la autorización y qué hace sin ella; el **cómo** es este contrato.
@@ -270,4 +270,6 @@ Cada entidad es una aplicación de Coolify que construye `sitio/Dockerfile`: Nod
 
 Encabezados que sirve nginx: `manifest.json` sin caché y legible desde otros orígenes; los archivos con huella en el nombre (`/_astro/`), con caché inmutable; `/v/`, con caché de una hora; todo, con `X-Content-Type-Options` y `Referrer-Policy`. No se restringe que otras páginas incrusten estas: hoy podría haber alguna que lo haga, y cambiarlo es una decisión aparte.
 
-**Transición:** `Gct/`, `Glt/` y `Unificado/` se conservan mientras Coolify no construya desde `/sitio`. Si el despliegue nuevo falla, se vuelve a la configuración anterior (Railpack, estático, carpeta base `/Gct` o `/Glt`) sin tocar el repositorio. Se borran en un commit posterior, verificadas las dos entidades; `Unificado/` espera a A6.
+En Coolify, un cambio de estos campos se guarda con *Save* antes de *Redeploy*; sin guardar, el despliegue busca el Dockerfile en la carpeta base anterior y falla con `open Dockerfile: no such file or directory`.
+
+Las páginas estáticas `Gct/` y `Glt/` se retiraron el 3-nov-2026, después de verificar en vivo las dos entidades construidas desde `/sitio`. Para volver a una versión anterior se redespliega su commit en Coolify. `Unificado/` se conserva hasta resolver A6.
