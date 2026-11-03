@@ -1,0 +1,33 @@
+---
+/**
+ * Searchable table of contents. The page renders it twice, as the original
+ * site did: inside the collapsible panel for narrow screens and as the fixed
+ * sidebar for wide ones. `public/script.js` binds both through the
+ * `data-toc-search` and `.toc-list` hooks, so the markup must keep them.
+ */
+import type { Parte } from "../lib/partes";
+
+interface Props {
+  partes: Parte[];
+}
+
+const { partes } = Astro.props;
+
+// Icons per document type: a document for the policy, a shield for the notice.
+const ICONOS = {
+  "politica-tratamiento":
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/>',
+  "aviso-privacidad": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+};
+---
+<div class="toc-search"><input type="search" placeholder="Buscar en el índice…" aria-label="Buscar en el índice" data-toc-search></div>
+{partes.map((parte, posicion) => (
+  <details class="toc-section" open={posicion === 0}>
+    <summary class="toc-title"><span class="toc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONOS[parte.tipo]} /></span><span class="toc-label">{parte.etiqueta}</span><span class="toc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></summary>
+    <ol class="toc-list">
+      {parte.indice.map((entrada) => (
+        <li class={parte.tipo === "politica-tratamiento" ? `depth-${entrada.profundidad}` : undefined}><a href={`#${entrada.id}`}><span class="toc-num">{entrada.numero}</span> {entrada.etiqueta}</a></li>
+      ))}
+    </ol>
+  </details>
+))}

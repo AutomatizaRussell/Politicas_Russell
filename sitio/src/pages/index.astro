@@ -1,0 +1,12 @@
+---
+/** Home page: the in-force policy and privacy notice of this build's entity. */
+import Documento from "../layouts/Documento.astro";
+import { entidadDelBuild } from "../entidades";
+import { parteDe } from "../lib/partes";
+import { vigentesDe } from "../lib/versiones";
+
+const entidad = entidadDelBuild();
+const vigentes = vigentesDe(entidad.codigo);
+const partes = [parteDe(entidad, vigentes["politica-tratamiento"]), parteDe(entidad, vigentes["aviso-privacidad"])];
+---
+<Documento entidad={entidad} partes={partes} />

@@ -1,0 +1,4 @@
+# Legal sources are fingerprinted in canonical form (LF); keep them LF in every checkout.
+contenido/**/*.html text eol=lf
+contenido/**/*.json text eol=lf
+*.png binary

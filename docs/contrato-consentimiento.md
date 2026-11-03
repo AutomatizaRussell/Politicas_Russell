@@ -3,10 +3,14 @@
 ```
 ESTADO:    v1 PROPUESTA el 31-oct-2026. Decisiones del diseño aprobadas por el operador
            (§1); el texto de este contrato no está ratificado
-CORTE:     sin construir: ni el sitio en Astro, ni el manifiesto, ni el servicio existen
-EVIDENCIA: lectura de Gct/index.html y Glt/index.html (commit 471a653), comparados byte
-           a byte con lo publicado en conecta-gctpoliticas.rbgct.cloud y
-           conecta-gltpoliticas.rbgct.cloud el 30-oct-2026
+CORTE:     3-nov-2026. §3 CONSTRUIDA en sitio/ (Astro): fuentes, registro, huellas,
+           versiones congeladas y manifiesto de GCT y GLT. Sin desplegar: Coolify
+           sigue sirviendo Gct/ y Glt/ (§7). §4 sin construir: el servicio no existe
+EVIDENCIA: builds locales de las dos entidades comparados con Gct/index.html y
+           Glt/index.html: texto, HTML de cada sección y banners idénticos; la huella
+           de cada fuente.html coincide con el manifiesto. Probado que el build falla
+           sin ENTIDAD y con una fuente alterada. Sin verificar: la imagen Docker y
+           nginx, que solo se construyen en Coolify
 ```
 
 **Autoridad:** este documento fija cómo se publican las políticas de tratamiento de datos y los avisos de privacidad de las dos entidades, y cómo cualquier proyecto pide, registra, verifica y deja de usar una autorización. Cada proyecto consumidor decide **cuándo** pide la autorización y qué hace sin ella; el **cómo** es este contrato.
@@ -54,26 +58,29 @@ La versión **no la inventa este sistema**: es la del control de cambios del pro
 
 **Abierto (jurídica):** el aviso no tiene control de cambios propio. Mientras no se decida otra cosa, cada aviso lleva el mismo número de versión que la política de su entidad y se publica con ella.
 
-Publicar una versión es un acto deliberado, nunca un efecto de un commit: se añade el archivo fuente nuevo y se registra en `versiones.json` (§3.4). Un cambio de estilo, de maquetación o de este repositorio no crea versión.
+Publicar una versión es un acto deliberado, nunca un efecto de un commit: se añade el archivo fuente nuevo y se registra con `pnpm registrar-version <entidad> <tipo> <version> <vigenteDesde>` (§3.4). Un cambio de estilo, de maquetación o de este repositorio no crea versión.
 
 ### 3.3 Huella del texto
 
-`sha256` en hexadecimal sobre el **archivo fuente en Markdown** de esa versión, canonicalizado así:
+`sha256` en hexadecimal sobre el **fragmento HTML fuente** de esa versión, canonicalizado así (`sitio/src/lib/canonico.mjs`):
 
 1. Codificación UTF-8, normalización Unicode NFC.
 2. Finales de línea LF.
 3. Sin espacios al final de cada línea; exactamente un LF al final del archivo.
 
-Se calcula sobre la fuente y no sobre el HTML porque el HTML cambia con el diseño. Cualquiera puede recalcularla: la fuente congelada se publica junto a cada versión (§3.5).
+**Por qué HTML y no Markdown** (cambiado el 3-nov-2026): el texto aprobado es un Word que Pandoc convierte a HTML, con listas en números romanos que empiezan en un número dado, citas anidadas y una tabla con anchos de columna. Markdown no expresa esas estructuras sin HTML incrustado, y convertirlo sería un paso más donde el texto legal puede cambiar sin que nadie lo note. La fuente es el fragmento que produce Pandoc, sin el diseño: la página, el índice y los estilos se generan alrededor de él y no entran en la huella.
+
+Cualquiera puede recalcular la huella: la fuente congelada se publica junto a cada versión (§3.5).
 
 ### 3.4 Fuente en el repositorio
 
 ```
-sitio/contenido/<entidad>/<tipo>/<version>.md    # one immutable file per published version
-sitio/contenido/<entidad>/versiones.json         # registry written when a version is published
+sitio/contenido/<entidad>/<tipo>/<version>.html  # one immutable file per published version
+sitio/contenido/<entidad>/versiones.json         # registry written by pnpm registrar-version
+sitio/contenido/<entidad>/banner-<tipo>.png      # banner shown above each document
 ```
 
-`versiones.json` registra por cada versión: `tipo`, `version`, `vigenteDesde` (AAAA-MM-DD), `sha256` y `publicadaEn` (fecha en que entró a este sitio). **El build falla** si la huella calculada de un archivo no coincide con la registrada: así, editar una versión ya publicada no pasa en silencio.
+`versiones.json` registra por cada versión: `tipo`, `version`, `vigenteDesde` (AAAA-MM-DD), `sha256` y `publicadaEn` (fecha en que entró a este sitio). **El build falla** si la huella calculada de un archivo no coincide con la registrada, si hay una fuente sin registrar o un registro sin fuente: así, editar una versión ya publicada no pasa en silencio. `registrar-version` se niega a registrar una versión existente o una menor que la vigente.
 
 ### 3.5 Lo que publica cada sitio
 
@@ -81,7 +88,7 @@ sitio/contenido/<entidad>/versiones.json         # registry written when a versi
 |---|---|---|
 | `/` | Política y aviso vigentes, con el diseño actual | Con cada versión y con cada cambio de diseño |
 | `/v/<tipo>/<version>/` | Esa versión en HTML | Solo de diseño; nunca de texto |
-| `/v/<tipo>/<version>/fuente.md` | La fuente exacta sobre la que se calculó la huella | Nunca |
+| `/v/<tipo>/<version>/fuente.html` | La fuente exacta sobre la que se calculó la huella | Nunca |
 | `/manifest.json` | §3.6 | Con cada versión |
 
 ### 3.6 `manifest.json`
@@ -101,12 +108,12 @@ sitio/contenido/<entidad>/versiones.json         # registry written when a versi
       "vigenteDesde": "2025-09-15",
       "sha256": "<64 hex>",
       "url": "https://conecta-gctpoliticas.rbgct.cloud/v/politica-tratamiento/2/",
-      "fuente": "https://conecta-gctpoliticas.rbgct.cloud/v/politica-tratamiento/2/fuente.md"
+      "fuente": "https://conecta-gctpoliticas.rbgct.cloud/v/politica-tratamiento/2/fuente.html"
     },
     "aviso-privacidad": { "version": 2, "...": "same shape" }
   },
   "historial": [
-    { "tipo": "politica-tratamiento", "version": 2, "vigenteDesde": "2025-09-15", "sha256": "<64 hex>" }
+    { "tipo": "politica-tratamiento", "version": 2, "vigenteDesde": "2025-09-15", "sha256": "<64 hex>", "publicadaEn": "2026-11-03" }
   ]
 }
 ```
@@ -247,3 +254,20 @@ El repositorio es público: el texto de las políticas ya lo es por obligación,
 2. **El registro de proyectos vive en la base de datos**, no en archivos del repositorio: ni llaves públicas de proyectos, ni direcciones de regreso, ni nombres de proyectos internos en el código.
 3. **Ningún dato personal real** en pruebas, ejemplos ni migraciones. Los correos de ejemplo usan dominios reservados (`example.com`, `example.org`).
 4. Si un secreto llega a subirse, **se rota de inmediato**. Borrarlo del historial no lo retira de las copias que ya existan.
+
+## 7. Despliegue de los sitios
+
+Cada entidad es una aplicación de Coolify que construye `sitio/Dockerfile`: Node 24.16.0 compila con Astro y nginx 1.31.6 sirve el resultado con la configuración de `sitio/nginx/`. Las versiones de las imágenes, de Node, de pnpm y de Astro están fijadas.
+
+| Campo de Coolify | GCT | GLT |
+|---|---|---|
+| Estrategia de build | Dockerfile | Dockerfile |
+| Carpeta base | `/sitio` | `/sitio` |
+| Ubicación del Dockerfile | `/Dockerfile` | `/Dockerfile` |
+| Variable de build | `ENTIDAD=gct` | `ENTIDAD=glt` |
+| Rutas que disparan el despliegue | `sitio/**` | `sitio/**` |
+| Puerto | 80 | 80 |
+
+Encabezados que sirve nginx: `manifest.json` sin caché y legible desde otros orígenes; los archivos con huella en el nombre (`/_astro/`), con caché inmutable; `/v/`, con caché de una hora; todo, con `X-Content-Type-Options` y `Referrer-Policy`. No se restringe que otras páginas incrusten estas: hoy podría haber alguna que lo haga, y cambiarlo es una decisión aparte.
+
+**Transición:** `Gct/`, `Glt/` y `Unificado/` se conservan mientras Coolify no construya desde `/sitio`. Si el despliegue nuevo falla, se vuelve a la configuración anterior (Railpack, estático, carpeta base `/Gct` o `/Glt`) sin tocar el repositorio. Se borran en un commit posterior, verificadas las dos entidades; `Unificado/` espera a A6.

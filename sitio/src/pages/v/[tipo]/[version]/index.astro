@@ -1,0 +1,28 @@
+---
+/**
+ * Frozen version page, /v/<tipo>/<version>/ (contract §3.5).
+ *
+ * One page per registered version, kept forever: it is the URL a consent
+ * receipt points to. Its text never changes; only the shared design may.
+ */
+import Documento from "../../../../layouts/Documento.astro";
+import { entidadDelBuild } from "../../../../entidades";
+import { parteDe } from "../../../../lib/partes";
+import { versionesDe, type VersionPublicada } from "../../../../lib/versiones";
+
+export function getStaticPaths() {
+  return versionesDe(entidadDelBuild().codigo).map((version) => ({
+    params: { tipo: version.tipo, version: String(version.version) },
+    props: { version },
+  }));
+}
+
+interface Props {
+  version: VersionPublicada;
+}
+
+const entidad = entidadDelBuild();
+const parte = parteDe(entidad, Astro.props.version);
+const titulo = `${entidad.altBanner[parte.tipo]} — versión ${parte.version.version}`;
+---
+<Documento entidad={entidad} partes={[parte]} titulo={titulo} />

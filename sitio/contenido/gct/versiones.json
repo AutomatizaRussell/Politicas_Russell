@@ -1,0 +1,18 @@
+{
+  "versiones": [
+    {
+      "tipo": "aviso-privacidad",
+      "version": 2,
+      "vigenteDesde": "2025-09-15",
+      "sha256": "dc5929c8d6651b35a3f242f3e9f17711408f7802bbd51bf280540554ae272101",
+      "publicadaEn": "2026-11-03"
+    },
+    {
+      "tipo": "politica-tratamiento",
+      "version": 2,
+      "vigenteDesde": "2025-09-15",
+      "sha256": "ea126e8364edae073009759e1a126c4c142b44647cb9d435f45d2fac19b6b340",
+      "publicadaEn": "2026-11-03"
+    }
+  ]
+}

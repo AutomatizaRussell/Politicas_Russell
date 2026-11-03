@@ -1,0 +1,66 @@
+---
+/**
+ * Page shell shared by the home page and the frozen version pages.
+ *
+ * It reproduces the markup of the original hand-written site (reading bar,
+ * two copies of the index, sheet, back-to-top button) because
+ * `public/styles.css` and `public/script.js` depend on those classes and
+ * hooks. Each legal source is inserted verbatim with `set:html`: the build
+ * never rewrites the text it fingerprinted.
+ */
+import Indice from "../components/Indice.astro";
+import type { Entidad } from "../entidades";
+import type { Parte } from "../lib/partes";
+
+interface Props {
+  entidad: Entidad;
+  partes: Parte[];
+  titulo?: string;
+}
+
+const { entidad, partes, titulo = entidad.tituloPagina } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es" data-entidad={entidad.codigo}>
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="https://www.russellbedford.com.co/favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{titulo}</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body id="top">
+
+<div class="reading-progress"><div class="reading-progress-bar" data-reading-progress></div></div>
+
+<div class="layout">
+  <details class="toc-toggle">
+    <summary>Tabla de contenido</summary>
+    <nav class="toc-inner">
+      <Indice partes={partes} />
+    </nav>
+  </details>
+
+  <nav class="toc">
+    <Indice partes={partes} />
+  </nav>
+
+  <main>
+    <div class="sheet">
+      {partes.map((parte) => (
+        <section class="part" id={parte.idSeccion}>
+          <img class="banner" alt={parte.altBanner} src={parte.banner}>
+          <Fragment set:html={parte.version.fuente} />
+        </section>
+      ))}
+    </div>
+  </main>
+</div>
+
+<a href="#top" class="back-to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</a>
+<script is:inline src="/script.js" defer></script>
+
+</body>
+</html>
