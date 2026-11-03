@@ -5,18 +5,17 @@ ESTADO:    v1 PROPUESTA el 31-oct-2026. Decisiones del diseño aprobadas por el 
            (§1); el texto de este contrato no está ratificado
 CORTE:     3-nov-2026. §3 CONSTRUIDA en sitio/ (Astro) y DESPLEGADA en las dos
            entidades: fuentes, registro, huellas, versiones congeladas y manifiesto.
-           Retiradas Gct/ y Glt/ (§7). §4 CONSTRUIDA EN PARTE en servicio/ y DESPLEGADA
-           en conecta-consentimiento.rbgct.cloud, sin proyectos registrados: alcance y
-           faltantes en §4.11
+           Retiradas Gct/ y Glt/ (§7). §4 CONSTRUIDA EN PARTE en servicio/ y
+           DESPLEGADA, sin proyectos registrados: alcance y faltantes en §4.11
 EVIDENCIA: §3: builds locales comparados con las páginas anteriores: texto, HTML de
            cada sección y banners idénticos. En vivo, las dos entidades: index idéntico
            byte a byte al build local, huella de cada fuente.html igual a la del
            manifiesto, cabeceras de §7, redirección relativa y 404. Probado que el build
            falla sin ENTIDAD y con una fuente alterada. §4: typecheck y 20 pruebas de la
-           superficie HTTP sobre PGlite. En vivo: imagen construida, migraciones aplicadas
-           en PostgreSQL 18, salud, JWKS sin parte privada, cabeceras, solicitud inválida
-           sin redirección y API sin aserción rechazada. Sin verificar: escrituras de
-           evidencia con el controlador pg y el flujo con una aplicación real
+           superficie HTTP sobre PGlite. En vivo: imagen Docker sana, migraciones aplicadas
+           en PostgreSQL 18, /salud, JWKS sin parte privada, cabeceras y rechazos sin
+           redirección. Sin verificar: una aceptación completa, que escribiría evidencia
+           imborrable, por lo que se probará con la primera aplicación real
 ```
 
 **Autoridad:** este documento fija cómo se publican las políticas de tratamiento de datos y los avisos de privacidad de las dos entidades, y cómo cualquier proyecto pide, registra, verifica y deja de usar una autorización. Cada proyecto consumidor decide **cuándo** pide la autorización y qué hace sin ella; el **cómo** es este contrato.
@@ -304,6 +303,7 @@ Una sola aplicación de Coolify para las dos entidades, más una base PostgreSQL
 
 | Campo de Coolify | Valor |
 |---|---|
+| Dominio | `conecta-consentimiento.rbgct.cloud` |
 | Estrategia de build | Dockerfile |
 | Carpeta base | `/servicio` |
 | Ubicación del Dockerfile | `/Dockerfile` |
