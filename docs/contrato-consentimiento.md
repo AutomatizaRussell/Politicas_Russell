@@ -301,6 +301,8 @@ Las páginas estáticas `Gct/` y `Glt/` se retiraron el 3-nov-2026, después de 
 
 Una sola aplicación de Coolify para las dos entidades, más una base PostgreSQL propia, sin compartirla con otra aplicación.
 
+**Instancia de pruebas (decisión del operador, 3-nov-2026):** los entornos de prueba de los proyectos usan otra aplicación con su propia base y su propia llave de recibos, en `conecta-consentimiento-pruebas.rbgct.cloud`. El registro es solo de inserción y el estado se calcula por entidad, así que una aceptación de prueba con un correo real contaría como autorización real si llegara a la instancia de producción. Las llaves de un proyecto tampoco se comparten entre las dos instancias.
+
 | Campo de Coolify | Valor |
 |---|---|
 | Dominio | `conecta-consentimiento.rbgct.cloud` |
