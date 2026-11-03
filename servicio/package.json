@@ -1,0 +1,27 @@
+{
+  "name": "politicas-russell-servicio",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.2.2",
+  "engines": {
+    "node": ">=24.16.0 <25"
+  },
+  "scripts": {
+    "inicio": "node src/servidor.ts",
+    "cli": "node src/cli.ts",
+    "typecheck": "tsc",
+    "test": "node --test \"pruebas/*.test.ts\""
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.5",
+    "hono": "4.13.13",
+    "jose": "6.2.12",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "typescript": "7.0.2"
+  }
+}

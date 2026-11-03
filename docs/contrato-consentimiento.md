@@ -5,12 +5,15 @@ ESTADO:    v1 PROPUESTA el 31-oct-2026. Decisiones del diseño aprobadas por el 
            (§1); el texto de este contrato no está ratificado
 CORTE:     3-nov-2026. §3 CONSTRUIDA en sitio/ (Astro) y DESPLEGADA en las dos
            entidades: fuentes, registro, huellas, versiones congeladas y manifiesto.
-           Retiradas Gct/ y Glt/ (§7). §4 sin construir: el servicio no existe
-EVIDENCIA: builds locales comparados con las páginas anteriores: texto, HTML de cada
-           sección y banners idénticos. En vivo, las dos entidades: index idéntico byte
-           a byte al build local, huella de cada fuente.html igual a la del manifiesto,
-           cabeceras de §7, redirección relativa y 404. Probado que el build falla sin
-           ENTIDAD y con una fuente alterada
+           Retiradas Gct/ y Glt/ (§7). §4 CONSTRUIDA EN PARTE en servicio/, sin
+           desplegar: alcance y faltantes en §4.11
+EVIDENCIA: §3: builds locales comparados con las páginas anteriores: texto, HTML de
+           cada sección y banners idénticos. En vivo, las dos entidades: index idéntico
+           byte a byte al build local, huella de cada fuente.html igual a la del
+           manifiesto, cabeceras de §7, redirección relativa y 404. Probado que el build
+           falla sin ENTIDAD y con una fuente alterada. §4: typecheck y 20 pruebas de la
+           superficie HTTP sobre PGlite. Sin verificar: el controlador pg contra un
+           PostgreSQL real, la imagen Docker y el flujo con una aplicación real
 ```
 
 **Autoridad:** este documento fija cómo se publican las políticas de tratamiento de datos y los avisos de privacidad de las dos entidades, y cómo cualquier proyecto pide, registra, verifica y deja de usar una autorización. Cada proyecto consumidor decide **cuándo** pide la autorización y qué hace sin ella; el **cómo** es este contrato.
@@ -202,6 +205,8 @@ Un proyecto sin backend no verifica nada para efectos legales: adjunta `jti` al 
 | `rechazada` | Su último resultado fue «No acepto» |
 | `ninguna` | Nunca se le pidió |
 
+El estado se calcula por **entidad**, no por proyecto: la autorización se otorga a la entidad (§2), así que una aceptación hecha desde un proyecto cuenta para los demás proyectos de esa entidad que exijan el mismo documento.
+
 ### 4.7 Revocación
 
 1. El titular la pide por el canal de la entidad (correo de notificaciones). El operador la registra en el panel: sujeto, entidad, fecha de la solicitud y referencia al correo.
@@ -235,6 +240,21 @@ Cuando la entidad publica una versión nueva, el servicio la toma del manifiesto
 - Límites de frecuencia por proyecto y por sujeto en `/aceptar`, en el envío de códigos y en la API.
 - El servicio es en sí una base de datos personales: respaldos, monitoreo y retención los fija §5.
 
+### 4.11 Alcance construido (piloto)
+
+| Parte | Estado |
+|---|---|
+| Flujo confidencial, rechazo, recibo y JWKS (§4.3 a §4.5) | Construido |
+| `GET /api/v1/estado` y `GET /api/v1/revocaciones` (§4.6, §4.7) | Construido |
+| Tablas solo de inserción, forzadas con triggers (§4.9) | Construido |
+| Límites de frecuencia (§4.10) | En memoria: valen para una sola instancia |
+| Flujo público y código por correo (§4.3) | **Sin construir.** No se puede registrar un proyecto público mientras A4 siga abierto |
+| Aviso de revocación por `POST` y tabla `aviso_revocacion` (§4.7, paso 3) | **Sin construir.** Un proyecto se entera por la conciliación diaria (paso 4), que es el retraso máximo aceptado |
+| Panel con Entra ID (§4.1) | **Sin construir.** El operador usa `node src/cli.ts` en la terminal del contenedor |
+| Reimportar recibos de las copias locales tras perder la base | **Sin construir.** Es lo que hace recuperable el piloto (A4), y se construye si hace falta |
+
+El servicio toma del sitio de cada entidad el manifiesto y la fuente del aviso, y no muestra ni registra nada si la huella de la fuente no coincide con el manifiesto o si no puede leerlos.
+
 ## 5. Abierto
 
 | # | Pendiente | Decide |
@@ -242,9 +262,10 @@ Cuando la entidad publica una versión nueva, el servicio la toma del manifiesto
 | A1 | Versión propia del aviso o la misma de la política (§3.2) | Jurídica |
 | A2 | Texto de `autorizacion-datos-sensibles` | Jurídica |
 | A3 | Supresión: un titular puede pedir que se borren sus datos, y la firma debe conservar la prueba de la autorización. Qué se conserva y cuánto tiempo | Jurídica |
-| A4 | Si el servidor de los sitios tiene Coolify y PostgreSQL, quién lo opera y cómo se respalda | Operador |
+| A4 | Respaldo fuera del servidor, quién opera el servicio y si el servidor tiene recursos para PostgreSQL. El servidor sí tiene Coolify. **Decisión del operador, 3-nov-2026:** el piloto arranca sin copia fuera del servidor mientras se contrata Backblaze B2, con el riesgo aceptado. Condiciones: solo proyectos confidenciales, cuyos recibos firmados permiten reconstruir las aceptaciones; copia diaria local en Coolify, que no protege de perder el servidor. Se cierra con la copia diaria en B2 y una restauración probada | Operador |
 | A5 | Activar el bloqueo de secretos al hacer push (§6), si el plan de la organización lo permite | Administrador del repositorio |
 | A6 | Si `Unificado/` se publica en alguna parte y si se conserva | Operador |
+| A7 | Texto de la pantalla de aceptación, en particular el de la casilla (`servicio/src/vistas.ts`): lo redactó ingeniería y es parte de la prueba de la autorización | Jurídica |
 
 ## 6. Repositorio público
 
@@ -273,3 +294,20 @@ Encabezados que sirve nginx: `manifest.json` sin caché y legible desde otros or
 En Coolify, un cambio de estos campos se guarda con *Save* antes de *Redeploy*; sin guardar, el despliegue busca el Dockerfile en la carpeta base anterior y falla con `open Dockerfile: no such file or directory`.
 
 Las páginas estáticas `Gct/` y `Glt/` se retiraron el 3-nov-2026, después de verificar en vivo las dos entidades construidas desde `/sitio`. Para volver a una versión anterior se redespliega su commit en Coolify. `Unificado/` se conserva hasta resolver A6.
+
+## 8. Despliegue del servicio
+
+Una sola aplicación de Coolify para las dos entidades, más una base PostgreSQL propia, sin compartirla con otra aplicación.
+
+| Campo de Coolify | Valor |
+|---|---|
+| Estrategia de build | Dockerfile |
+| Carpeta base | `/servicio` |
+| Ubicación del Dockerfile | `/Dockerfile` |
+| Rutas que disparan el despliegue | `servicio/**` |
+| Puerto | 3000 |
+| Variables | Las de `servicio/.env.example` |
+
+Al arrancar, el servicio aplica las migraciones de `servicio/migraciones/` y después empieza a escuchar. Una migración que falla detiene el arranque.
+
+Para registrar un proyecto, en la terminal del contenedor: `node src/cli.ts proyecto-guardar '<json>'` y `node src/cli.ts llave-agregar <proyecto> '<jwk pública>'`. La llave privada del proyecto la genera el proyecto y nunca pasa por aquí.
