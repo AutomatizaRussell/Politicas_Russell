@@ -16,6 +16,18 @@ function obligatoria(nombre: string): string {
   return valor;
 }
 
+/**
+ * JSON.parse quotes part of its input in the error message, which for a private
+ * key would end up in the deployment logs. Only the variable's name is reported.
+ */
+function jsonDe<T>(nombre: string, valor: string): T {
+  try {
+    return JSON.parse(valor) as T;
+  } catch {
+    throw new Error(`La variable de entorno ${nombre} no es JSON válido`);
+  }
+}
+
 export function cadenaConexion(): string {
   return obligatoria("DATABASE_URL");
 }
@@ -27,8 +39,8 @@ export function leerConfiguracion() {
   }
   return {
     urlServicio,
-    llavePrivada: JSON.parse(obligatoria("RECIBO_LLAVE_PRIVADA")) as JWK,
-    llavesRetiradas: JSON.parse(process.env["RECIBO_LLAVES_RETIRADAS"] || "[]") as JWK[],
+    llavePrivada: jsonDe<JWK>("RECIBO_LLAVE_PRIVADA", obligatoria("RECIBO_LLAVE_PRIVADA")),
+    llavesRetiradas: jsonDe<JWK[]>("RECIBO_LLAVES_RETIRADAS", process.env["RECIBO_LLAVES_RETIRADAS"] || "[]"),
     puerto: Number(process.env["PUERTO"] || 3000),
   };
 }
