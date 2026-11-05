@@ -232,11 +232,22 @@ describe("servicio de consentimiento", () => {
     assert.ok(pagina.includes("https://gct.example.org/v/politica-tratamiento/2/"));
     assert.match(pagina, /<input type="checkbox" name="casilla" value="si">/);
     assert.ok(!/checked/.test(pagina));
+    assert.ok(pagina.includes(SUJETO), "muestra la cuenta que autoriza");
+    // The policy is linked from inside the sentence being authorized.
+    assert.match(pagina, /<label class="casilla">[\s\S]*política de tratamiento<\/a>\.[\s\S]*<\/label>/);
 
     const politica = respuesta.headers.get("Content-Security-Policy")!;
+    assert.ok(politica.includes("img-src 'self'"));
     assert.ok(politica.includes("frame-ancestors 'none'"));
     assert.ok(politica.includes("form-action 'self' https://app.example.org"));
     assert.ok(respuesta.headers.get("Set-Cookie")!.includes("__Host-csrf="));
+  });
+
+  it("sirve el logo que la pantalla enlaza", async () => {
+    const respuesta = await m.app.request("/logo.png");
+    assert.equal(respuesta.status, 200);
+    assert.equal(respuesta.headers.get("Content-Type"), "image/png");
+    assert.ok((await respuesta.arrayBuffer()).byteLength > 0);
   });
 
   it("nunca redirige ante una solicitud inválida", async () => {

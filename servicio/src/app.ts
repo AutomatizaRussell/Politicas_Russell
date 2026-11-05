@@ -2,6 +2,7 @@
 // tests run this same application over PGlite and a fake manifest.
 
 import { randomUUID } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { Hono, type Context } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import { getCookie, setCookie } from "hono/cookie";
@@ -31,8 +32,12 @@ const LIMITE_SUJETO: Limite = { maximo: 20, ventanaMs: 10 * MINUTO };
 // The name prefix makes browsers require Secure, Path=/ and no Domain.
 const COOKIE_CSRF = "__Host-csrf";
 
+// Read once at startup: a missing file stops the service at deploy time instead
+// of showing a broken image on the screen where people give their authorization.
+const LOGO = new Uint8Array(readFileSync(new URL("../recursos/russell-bedford.png", import.meta.url)));
+
 /**
- * Strict policy for every page: only this origin's stylesheet, never framed.
+ * Strict policy for every page: only this origin's stylesheet and images, never framed.
  * Browsers also apply form-action to redirects after a submission, so the
  * acceptance form has to allow the project's return origin or the 303 is blocked.
  */
@@ -40,6 +45,7 @@ function politicaContenido(origenRegreso?: string): string {
   return [
     "default-src 'none'",
     "style-src 'self'",
+    "img-src 'self'",
     "base-uri 'none'",
     `form-action 'self'${origenRegreso ? ` ${origenRegreso}` : ""}`,
     "frame-ancestors 'none'",
@@ -93,6 +99,12 @@ export function crearApp(deps: Dependencias) {
     c.header("Content-Type", "text/css; charset=utf-8");
     c.header("Cache-Control", "public, max-age=3600");
     return c.body(ESTILOS);
+  });
+
+  app.get("/logo.png", (c) => {
+    c.header("Content-Type", "image/png");
+    c.header("Cache-Control", "public, max-age=86400");
+    return c.body(LOGO);
   });
 
   app.get("/.well-known/jwks.json", (c) => {

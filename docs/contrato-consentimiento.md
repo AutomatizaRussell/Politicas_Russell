@@ -267,7 +267,7 @@ El servicio toma del sitio de cada entidad el manifiesto y la fuente del aviso, 
 | A4 | Respaldo fuera del servidor, quién opera el servicio y si el servidor tiene recursos para PostgreSQL. El servidor sí tiene Coolify. **Decisión del operador, 3-nov-2026:** el piloto arranca sin copia fuera del servidor mientras se contrata Backblaze B2, con el riesgo aceptado. Condiciones: solo proyectos confidenciales, cuyos recibos firmados permiten reconstruir las aceptaciones; copia diaria local en Coolify, que no protege de perder el servidor. Se cierra con la copia diaria en B2 y una restauración probada | Operador |
 | A5 | Activar el bloqueo de secretos al hacer push (§6), si el plan de la organización lo permite | Administrador del repositorio |
 | A6 | Si `Unificado/` se publica en alguna parte y si se conserva | Operador |
-| A7 | **Cerrado el 4-nov-2026.** El operador aprobó sin cambios el texto de la pantalla de aceptación (`servicio/src/vistas.ts`). No consta revisión de Jurídica | Operador |
+| A7 | **Cerrado el 4-nov-2026.** El operador aprobó el texto de la pantalla de aceptación (`servicio/src/vistas.ts`) y, el mismo día, su rediseño: retira el párrafo con razón social y NIT, deja el correo bajo el título y enlaza la política dentro de la frase de la casilla. No consta revisión de Jurídica | Operador |
 
 ## 6. Repositorio público
 
